@@ -1,0 +1,16 @@
+{# myproject/local_business_directory/businesses/templates/businesses/business_confirm_delete.html #}
+
+{% extends 'businesses/base.html' %}
+
+{% block title %}Confirm Delete{% endblock %}
+
+{% block content %}
+    <h1>Confirm Delete</h1>
+    <p>Are you sure you want to delete "{{ business.name }}"?</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Yes, Delete</button>
+        <a href="{% url 'businesses:detail' pk=business.pk %}">Cancel</a>
+    </form>
+{% endblock %}

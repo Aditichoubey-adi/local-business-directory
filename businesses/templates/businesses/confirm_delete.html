@@ -1,0 +1,27 @@
+{# myproject/local_business_directory/businesses/templates/businesses/confirm_delete.html #}
+
+{% extends 'businesses/base.html' %} {# Apni base.html template ko extend karein #}
+
+{% block title %}Confirm Delete{% endblock %}
+
+{% block content %}
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header bg-danger text-white text-center">
+                    <h2>Confirm Deletion</h2>
+                </div>
+                <div class="card-body text-center">
+                    <p class="lead">Are you sure you want to delete the business "<strong>{{ business.name }}</strong>"?</p>
+                    <p class="text-danger">This action cannot be undone.</p>
+                    
+                    <form method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger me-2">Yes, Delete</button>
+                        <a href="{% url 'businesses:detail' pk=business.pk %}" class="btn btn-secondary">Cancel</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

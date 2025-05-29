@@ -1,0 +1,109 @@
+{# myproject/local_business_directory/businesses/templates/businesses/business_list.html #}
+
+{% extends 'businesses/base.html' %}
+
+{% block title %}All Businesses{% endblock %}
+
+{% block content %}
+    <h1 class="mb-4">Business List</h1> {# Heading mein margin-bottom #}
+    <p class="mb-3"><a href="{% url 'businesses:add_business' %}" class="btn btn-success">Add a New Business</a></p> {# Add button style #}
+
+    {# Search Form #}
+    <form method="GET" action="{% url 'businesses:list' %}" class="mb-4"> {# Form mein margin-bottom #}
+        <div class="input-group">
+            <input type="text" name="q" placeholder="Search businesses..." value="{{ query|default:'' }}" class="form-control">
+            <button type="submit" class="btn btn-outline-primary">Search</button>
+        </div>
+    </form>
+    <hr>
+    {# Category Filter Dropdown #}
+    <form method="GET" action="{% url 'businesses:list' %}" class="mb-4 d-flex align-items-center">
+        <label for="category-select" class="form-label me-2 mb-0">Filter by Category:</label>
+        <select name="category" id="category-select" class="form-select w-auto me-2">
+            <option value="">All Categories</option> {# Default option to show all businesses #}
+            {% for category in categories %}
+                <option value="{{ category.id }}" {% if category.id|stringformat:"s" == selected_category_id %}selected{% endif %}>
+                    {{ category.name }}
+                </option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="btn btn-primary">Apply Filter</button>
+        {% if selected_category_id or query %}
+            <a href="{% url 'businesses:list' %}" class="btn btn-outline-secondary ms-2">Clear Filters</a>
+        {% endif %}
+    </form>
+    <hr>
+
+    
+
+    <div class="row"> {# Bootstrap grid row for cards #}
+        {% for business in businesses %}
+            <div class="col-md-4 mb-4"> {# Column for each card, 3 cards per row on medium screens #}
+                <div class="card h-100 shadow-sm"> {# Card with full height and shadow #}
+                    {% if business.image %}
+                        <img src="{{ business.image.url }}" class="card-img-top" alt="{{ business.name }}" style="height: 200px; object-fit: cover;"> {# Image styling for cards #}
+                    {% else %}
+                        <img src="https://via.placeholder.com/200x200?text=No+Image" class="card-img-top" alt="No Image" style="height: 200px; object-fit: cover;"> {# Placeholder image #}
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title"><a href="{% url 'businesses:detail' business.pk %}" class="text-primary">{{ business.name }}</a></h5>
+                        <p class="card-text text-muted">{{ business.address }}</p>
+                        {% if business.phone %}<p class="card-text"><small class="text-muted">Phone: {{ business.phone }}</small></p>{% endif %}
+                        {# ... (You can add more details here if needed) ... #}
+                        {# Display Category #}
+                        {% if business.category %}
+                            <span class="badge bg-secondary mb-2">{{ business.category.name }}</span> {# Category ko badge mein dikhaya #}
+                        {% endif %}
+
+                    </div>
+                    <div class="card-footer bg-white border-top-0">
+                        <a href="{% url 'businesses:detail' business.pk %}" class="btn btn-sm btn-outline-info">View Details</a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12">
+                <p class="alert alert-info">No businesses found.</p>
+            </div>
+        {% endfor %}
+    </div>
+    {% if businesses.has_other_pages %} {# Check if there are more than one page #}
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center mt-4">
+            {% if businesses.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ businesses.previous_page_number }}&q={{ query|default:'' }}&category={{ selected_category_id|default:'' }}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link">&laquo;</span>
+                </li>
+            {% endif %}
+
+            {% for i in businesses.paginator.page_range %}
+                {% if businesses.number == i %}
+                    <li class="page-item active" aria-current="page"><span class="page-link">{{ i }}</span></li>
+                {% else %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ i }}&q={{ query|default:'' }}&category={{ selected_category_id|default:'' }}">{{ i }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+
+            {% if businesses.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ businesses.next_page_number }}&q={{ query|default:'' }}&category={{ selected_category_id|default:'' }}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link">&raquo;</span>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,37 @@
+{# myproject/local_business_directory/templates/homepage.html #}
+{% load static %} {# If your homepage HTML uses static files (CSS, JS) #}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }} - Apni Dukan</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}"> {# Link to your common CSS #}
+</head>
+<body>
+    <header>
+        <h1><a href="{% url 'homepage' %}" style="color: white; text-decoration: none;">Apni Dukan</a></h1>
+        <nav>
+            <a href="{% url 'businesses:list' %}">All Businesses</a>
+            <a href="/admin/">Admin Panel</a>
+            <a href="{% url 'homepage' %}">Home</a> {# Link back to homepage #}
+        </nav>
+    </header>
+
+    <main class="container">
+        <h2>Welcome to Apni Dukan!</h2>
+        <p>Find local businesses easily in your neighborhood.</p>
+        <p>Explore our directory to find restaurants, plumbers, grocery stores, and more.</p>
+        <a href="{% url 'businesses:list' %}" class="back-link">Browse All Businesses</a>
+        {% if business and business.image %}
+            <img src="{{ business.image.url }}" alt="{{ your.business }}" class="homepage-image" style="display: block; margin-left: auto; margin-right: auto; max-width: 100%; height: auto;">>
+        {% else %}
+            <p>No image available.</p>
+        {% endif %}
+    </main>
+
+    <footer>
+        <p>&copy; {% now "Y" %} Apni Dukan. All rights reserved.</p>
+    </footer>
+</body>
+</html>

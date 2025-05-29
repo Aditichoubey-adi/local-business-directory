@@ -1,0 +1,28 @@
+{# myproject/local_business_directory/businesses/templates/businesses/business_form.html #}
+
+{% extends 'businesses/base.html' %}
+
+{% block title %}Add/Edit Business{% endblock %} {# Title update kiya hai #}
+
+{% block content %}
+    <h1>{% if form.instance.pk %}Edit{% else %}Add New{% endif %} Business</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="mb-3"> {# Margin-bottom for spacing #}
+                <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                {{ field }}
+                {% if field.help_text %}
+                    <div class="form-text">{{ field.help_text }}</div>
+                {% endif %}
+                {% if field.errors %}
+                    {% for error in field.errors %}
+                        <div class="alert alert-danger mt-1">{{ error }}</div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary">Submit Business</button> {# Bootstrap button class #}
+        <a href="{% url 'businesses:list' %}" class="btn btn-secondary ms-2">Back to List</a> {# Back button style #}
+    </form>
+{% endblock %}

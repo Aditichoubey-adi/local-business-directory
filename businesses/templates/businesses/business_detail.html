@@ -1,0 +1,41 @@
+{# myproject/local_business_directory/businesses/templates/businesses/business_detail.html #}
+
+{% extends 'businesses/base.html' %}
+
+{% block title %}{{ business.name }}{% endblock %}
+
+{% block content %}
+    <div class="card mb-4 shadow-sm"> {# Main card for the business details #}
+        <div class="row g-0"> {# Use Bootstrap grid for image and details side-by-side #}
+            <div class="col-md-4">
+                {% if business.image %}
+                    <img src="{{ business.image.url }}" class="img-fluid rounded-start" alt="{{ business.name }}" style="object-fit: cover; height: 100%;">
+                {% else %}
+                    <img src="https://via.placeholder.com/400x400?text=No+Image" class="img-fluid rounded-start" alt="No Image" style="object-fit: cover; height: 100%;">
+                {% endif %}
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h1 class="card-title text-primary">{{ business.name }}</h1> {# Title with Bootstrap class #}
+                    {% if business.category %}
+                        <h6 class="card-subtitle mb-2 text-muted">Category: <span class="badge bg-info text-dark">{{ business.category.name }}</span></h6>
+                    {% endif %}
+                    {% if business.description %}
+                        <p class="card-text lead">{{ business.description }}</p> {# Description as lead paragraph #}
+                    {% endif %}
+                    <hr> {# Separator line #}
+                    <p class="card-text"><strong>Address:</strong> {{ business.address }}</p>
+                    {% if business.phone %}<p class="card-text"><strong>Phone:</strong> {{ business.phone }}</p>{% endif %}
+                    {% if business.email %}<p class="card-text"><strong>Email:</strong> {{ business.email }}</p>{% endif %}
+                    {% if business.website %}<p class="card-text"><strong>Website:</strong> <a href="{{ business.website }}" target="_blank">{{ business.website }}</a></p>{% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-start gap-2"> {# Flexbox for buttons with gap #}
+        <a href="{% url 'businesses:list' %}" class="btn btn-secondary">Back to Business List</a>
+        <a href="{% url 'businesses:edit_business' pk=business.pk %}" class="btn btn-info">Edit Business</a>
+        <a href="{% url 'businesses:delete_business' pk=business.pk %}" class="btn btn-danger">Delete Business</a>
+    </div>
+{% endblock %}

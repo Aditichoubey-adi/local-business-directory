@@ -102,16 +102,6 @@ Make sure you have Python installed on your system. It's highly recommended to u
 This project is deployed live on the internet using **Render**, a cloud application platform.
 
 **Live Demo:** [https://local-business-directory-pkhz.onrender.com/](https://local-business-directory-pkhz.onrender.com/)
-*(Replace this URL with your actual live deployed URL once it's successfully running on Render.)*
-
-## Future Enhancements (Optional - Your ideas)
-
-* Add user reviews and ratings for businesses.
-* Implement location-based search (e.g., businesses near me).
-* Improve search filters (by category, rating, etc.).
-* Add a user profile page to manage their own added businesses.
-* Implement password reset functionality via email.
-* Integrate third-party APIs (e.g., Google Maps for business locations).
 
 
 ## Contact

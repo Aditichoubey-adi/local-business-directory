@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,9 +22,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-@e^v93b^9z2#4n0!@$1=9u#x^k+q4x48t&d^4p5v@^b8x#+*1' # KEEP THIS UNIQUE TO YOUR PROJECT!
+SECRET_KEY = os.environ.get('SECRET_KEY', 'ek_bahut_lambi_random_string_yahan_dalen_agar_local_testing_kar_rahe_hain')
+# Ye line confirm karein
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True # Set to False in production
+DEBUG = False # Set to False in production
 
 ALLOWED_HOSTS = ['local-business-directory-pkhz.onrender.com', '.render.com' ,'127.0.0.1', # <--- Yeh line add karein
     'localhost' ] # In development, this is fine. For production, add your domain/IP, e.g., ['yourdomain.com', '127.0.0.1']
@@ -70,7 +73,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'local_business_directory.wsgi.application'
+WSGI_APPLICATION = ' myproject.local_business_directory.wsgi.application'
 
 
 # Database
@@ -119,6 +122,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/' # The URL prefix for static files served in development
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 LOGIN_URL = 'login'                 # Login page ka URL (Django ke auth URLs mein 'login' naam se hota hai)
 LOGOUT_REDIRECT_URL = 'businesses:list'
 LOGIN_REDIRECT_URL = 'businesses:list'
@@ -135,6 +139,7 @@ LOGIN_REDIRECT_URL = 'businesses:list'
 # Media files (for user uploads like images)
 # These settings are crucial for handling uploaded content like business images.
 MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles')
 MEDIA_ROOT = BASE_DIR / 'media' # This is the absolute path to the directory where user-uploaded files will be stored.
 
 
